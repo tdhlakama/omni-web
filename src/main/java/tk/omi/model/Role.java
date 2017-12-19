@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 @Entity
 public class Role extends BaseEntityId {
 
+    public Role() {
+    }
+
     public Role(String name) {
         this.name = name;
     }

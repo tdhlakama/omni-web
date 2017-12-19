@@ -11,6 +11,7 @@ import tk.omi.service.AppService;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.HashSet;
 
 @SpringBootApplication
 public class OmniApplication extends SpringBootServletInitializer {
@@ -28,13 +29,15 @@ public class OmniApplication extends SpringBootServletInitializer {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         User user = new User("admin", "admin");
+        user.setRoles(new HashSet<>(
                 Arrays.asList(
                         new Role("ROLE_USER"),
-                        new Role("ROLE_ADMIN"));
-
-        if (appService.findByUsername(user.getUsername()) == null){
+                        new Role("ROLE_ADMIN"),
+                        new Role("ACTUATOR"))
+        ));
+        if (appService.findByUsername(user.getUsername()) == null) {
             appService.save(user);
         }
     }

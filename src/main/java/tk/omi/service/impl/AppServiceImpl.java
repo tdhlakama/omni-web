@@ -20,10 +20,7 @@ import tk.omi.repository.RoleRepository;
 import tk.omi.repository.UserRepository;
 import tk.omi.service.AppService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -91,11 +88,7 @@ public class AppServiceImpl implements AppService, UserDetailsService {
 
     @Override
     public User save(User user) {
-        if (user.getId() == null) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            if (!roleRepository.findAll().isEmpty())
-                user.setRoles(new HashSet<>(roleRepository.findAll()));
-        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
