@@ -2,13 +2,12 @@ package tk.omi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import tk.omi.model.Customer;
 import tk.omi.model.CustomerDocument;
@@ -20,10 +19,9 @@ import tk.omi.repository.RoleRepository;
 import tk.omi.repository.UserRepository;
 import tk.omi.service.AppService;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class AppServiceImpl implements AppService, UserDetailsService {
@@ -68,7 +66,11 @@ public class AppServiceImpl implements AppService, UserDetailsService {
 
     @Override
     public List<Customer> findByUser(User user) {
-        return findByUser(user);
+        return customerRepository.findByUser(user);
+    }
+
+    public Long countCustomerByUser(User user) {
+        return customerRepository.countCustomerByUser(user);
     }
 
     @Override
@@ -108,28 +110,6 @@ public class AppServiceImpl implements AppService, UserDetailsService {
     }
 
     @Override
-    public String findLoggedInUsername() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if (userDetails instanceof UserDetails) {
-            return ((UserDetails) userDetails).getUsername();
-        }
-
-        return null;
-    }
-
-    @Override
-    public void autologin(String username, String password) {
-        UserDetails userDetails = loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -144,6 +124,11 @@ public class AppServiceImpl implements AppService, UserDetailsService {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
     }
 
 }

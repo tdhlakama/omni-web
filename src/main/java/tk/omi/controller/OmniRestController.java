@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @MultipartConfig(fileSizeThreshold = 20971520)
-public class AppController {
+public class OmniRestController {
 
     @Autowired
     private AppService appService;

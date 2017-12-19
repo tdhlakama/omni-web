@@ -24,6 +24,9 @@ public class User extends BaseEntityId {
     private String password;
 
     @JsonIgnore
+    private Long numberOfCustomers;
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Role> roles = new HashSet<>();
 
@@ -49,5 +52,13 @@ public class User extends BaseEntityId {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Long getNumberOfCustomers() {
+        return numberOfCustomers;
+    }
+
+    public void setNumberOfCustomer(Long numberOfCustomers) {
+        this.numberOfCustomers = numberOfCustomers;
     }
 }

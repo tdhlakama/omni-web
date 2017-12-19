@@ -11,41 +11,54 @@
 <div th:replace="fragments/header :: header"/>
 
 <div class="container">
-
-    <div class="starter-template">
-        <h1>Omni Channel Home Page</h1>
-        <h2>1. Visit <a th:href="@{/admin}">Agents</a></h2>
-        <h2>2. Visit <a th:href="@{/user}">Customers</a></h2>
-        <h2>3. Visit <a th:href="@{/about}">About</a></h2>
-    </div>
-
+    <span th:if="${agent == null}">
+        <div class="starter-template">
+            <h1>Omni Channel Home Page</h1>
+            <h2>1. Visit <a th:href="@{/users}">Agents</a></h2>
+            <h2>2. Visit <a th:href="@{/}">Customers</a></h2>
+            <h2>3. Visit <a th:href="@{/about}">Instructions</a></h2>
+        </div>
+    </span>
 </div>
 
 <div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    <div class="panel panel-primary" th:unless="${#lists.isEmpty(customers)}">
+        <div class="panel-heading">
+         <span th:if="${agent != null}">
+               Agent: <label th:text="${{agent.username}} + ' - ' "/> Registered Customers
+         </span>
+            <span th:if="${agent == null}">
+                All Registered Customers
+        </span>
         </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
+        <div class="table-responsive">
+            <table id="tableList" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Surname</th>
+                    <th>Id Number</th>
+                    <th>Card Number</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${customers}">
+                    <td th:text="${{c.firstName}}">First Name</td>
+                    <td th:text="${{c.surname}}">Surname</td>
+                    <td th:text="${{c.idNumber}}">Id Number</td>
+                    <td th:text="${{c.cardNumber}}">Card Number</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <div class="panel panel-primary" th:if="${#lists.isEmpty(customers)}">
+       <h1> No Registered Customers </h1>
+   </div>
+
 </div>
 
 <div th:replace="fragments/footer :: footer"/>

@@ -2,6 +2,7 @@ package tk.omi.service;
 
 import tk.omi.model.Customer;
 import tk.omi.model.CustomerDocument;
+import tk.omi.model.Role;
 import tk.omi.model.User;
 
 import java.util.List;
@@ -13,8 +14,7 @@ public interface AppService {
     Customer getCustomer(Long id);
     Customer findByAccountNumber(Long accountNumber);
     List<Customer> findByUser(User user);
-    String findLoggedInUsername();
-    void autologin(String username, String password);
+    Long countCustomerByUser(User user);
 
     CustomerDocument getCustomerDocument(Long id);
     CustomerDocument save(CustomerDocument customerDocument);
@@ -24,5 +24,7 @@ public interface AppService {
     List<User> findAllUsers();
     User getUser(Long id);
     User findByUsername(String username);
+
+    List<Role> findAllRoles();
 
 }
