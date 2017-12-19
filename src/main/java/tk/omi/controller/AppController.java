@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import tk.omi.model.Customer;
 import tk.omi.model.CustomerDocument;
+import tk.omi.model.User;
 import tk.omi.service.AppService;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -23,17 +24,11 @@ public class AppController {
     @Autowired
     private AppService appService;
 
-    @GetMapping(value = "/test", produces = "application/json")
-    public ResponseEntity test() {
-        ServerResponse response = new ServerResponse(1L, "Connection Successful");
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping(value = "/customer/register", produces = "application/json")
     public ResponseEntity saveCustomers(@RequestBody Customer customer) {
         customer = appService.save(customer);
         ServerResponse response = new ServerResponse(customer.getAccountNumber(), "Customer Account Created");
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/customerDocument/upload")
@@ -63,13 +58,13 @@ public class AppController {
             e.printStackTrace();
         }
         ServerResponse response = new ServerResponse(0L, "Document not saved");
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity login(@RequestParam("username") String username,
-                                @RequestParam(("password")) String password) {
-        return ResponseEntity.ok("Connection Successful");
+    @GetMapping("/user")
+    public ResponseEntity login(@RequestParam("username") String username) {
+        User user = appService.findByUsername(username);
+        return new ResponseEntity<>(user, HttpStatus.FOUND);
     }
 
 }
