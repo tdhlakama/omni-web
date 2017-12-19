@@ -1,19 +1,35 @@
 package tk.omi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tk.omi.model.Customer;
 import tk.omi.model.CustomerDocument;
+import tk.omi.model.Role;
 import tk.omi.model.User;
 import tk.omi.repository.CustomerDocumentRepository;
 import tk.omi.repository.CustomerRepository;
+import tk.omi.repository.RoleRepository;
 import tk.omi.repository.UserRepository;
 import tk.omi.service.AppService;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
-public class AppServiceImpl implements AppService {
+public class AppServiceImpl implements AppService, UserDetailsService {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -21,6 +37,12 @@ public class AppServiceImpl implements AppService {
     private CustomerDocumentRepository customerDocumentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public Customer save(Customer customer) {
@@ -29,7 +51,6 @@ public class AppServiceImpl implements AppService {
             Long lastAccountNumber = customerRepository.findLastAccountNumber();
             customer.setAccountNumber(lastAccountNumber != null ? lastAccountNumber + 1 : 1000);
         }
-
         return customerRepository.save(customer);
     }
 
@@ -70,6 +91,11 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public User save(User user) {
+        if (user.getId() == null) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            if (!roleRepository.findAll().isEmpty())
+                user.setRoles(new HashSet<>(roleRepository.findAll()));
+        }
         return userRepository.save(user);
     }
 
@@ -87,4 +113,44 @@ public class AppServiceImpl implements AppService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public String findLoggedInUsername() {
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (userDetails instanceof UserDetails) {
+            return ((UserDetails) userDetails).getUsername();
+        }
+
+        return null;
+    }
+
+    @Override
+    public void autologin(String username, String password) {
+        UserDetails userDetails = loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+
+        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(),
+                mapRolesToAuthorities(user.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+    }
+
 }

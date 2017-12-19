@@ -10,12 +10,14 @@ import tk.omi.model.Customer;
 import tk.omi.model.CustomerDocument;
 import tk.omi.service.AppService;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@MultipartConfig(fileSizeThreshold = 20971520)
 public class AppController {
 
     @Autowired
@@ -40,20 +42,18 @@ public class AppController {
                                                @RequestParam("documentType") String documentType) {
 
         CustomerDocument customerDocument = new CustomerDocument();
-
-        List<MultipartFile> files = multipartHttpServletRequest.getFiles("name");
+        List<MultipartFile> files = multipartHttpServletRequest.getFiles("file");
         try {
 
             for (MultipartFile file : files) {
                 String fileName = file.getOriginalFilename();
-
                 byte[] bytes = file.getBytes();
                 Customer customer = appService.findByAccountNumber(accountNumber);
                 customerDocument.setFileName(fileName);
+                customerDocument.setDocument(bytes);
                 customerDocument.setDocumentType(documentType);
                 customerDocument.setCustomer(customer);
                 customerDocument = appService.save(customerDocument);
-                customerDocument.setDocument(bytes);
 
                 ServerResponse response = new ServerResponse(customerDocument.getId(), "Customer Account Created");
                 return ResponseEntity.ok(response);

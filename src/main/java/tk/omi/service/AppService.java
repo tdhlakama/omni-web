@@ -13,6 +13,8 @@ public interface AppService {
     Customer getCustomer(Long id);
     Customer findByAccountNumber(Long accountNumber);
     List<Customer> findByUser(User user);
+    String findLoggedInUsername();
+    void autologin(String username, String password);
 
     CustomerDocument getCustomerDocument(Long id);
     CustomerDocument save(CustomerDocument customerDocument);
