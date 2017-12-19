@@ -1,8 +1,9 @@
 package tk.omi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,8 +19,11 @@ public class User extends BaseEntityId {
 
     @Column(unique = true)
     private String username;
+
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Role> roles = new HashSet<>();
 
