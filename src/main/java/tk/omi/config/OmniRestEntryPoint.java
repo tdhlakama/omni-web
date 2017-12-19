@@ -25,7 +25,7 @@ public class OmniRestEntryPoint extends BasicAuthenticationEntryPoint {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        setRealmName("Baeldung");
+        setRealmName("OmniApp");
         super.afterPropertiesSet();
     }
 }
