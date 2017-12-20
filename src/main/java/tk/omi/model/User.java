@@ -61,4 +61,9 @@ public class User extends BaseEntityId {
     public void setNumberOfCustomer(Long numberOfCustomers) {
         this.numberOfCustomers = numberOfCustomers;
     }
+
+    @Override
+    public String toString() {
+        return getUsername();
+    }
 }
