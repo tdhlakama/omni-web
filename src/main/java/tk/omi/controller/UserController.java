@@ -46,7 +46,7 @@ public class UserController {
     @ModelAttribute("users")
     public List<User> populateUsers() {
         List<User> users = appService.findAllUsers();
-        users.forEach(user -> user.setNumberOfCustomer(appService.countCustomerByUser(user)));
+        users.forEach(user -> user.setNumberOfCustomers(appService.countCustomerByUser(user)));
         return users;
     }
 }

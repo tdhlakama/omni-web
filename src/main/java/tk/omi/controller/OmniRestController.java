@@ -3,8 +3,9 @@ package tk.omi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -75,19 +76,15 @@ public class OmniRestController {
             return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
 
-
-    private String getUsername() {
-        User user = getUser();
-        return user != null ? user.getUsername() : "";
-
-    }
-
     private User getUser() {
-        UserDetails userDetail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userDetail != null)
-            return appService.findByUsername(userDetail.getUsername());
-        else
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return appService.findByUsername(authentication.getName());
+        } else {
             return null;
+        }
+
     }
 
 

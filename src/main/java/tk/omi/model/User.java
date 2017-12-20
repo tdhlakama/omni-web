@@ -17,6 +17,9 @@ public class User extends BaseEntityId {
         this.password = password;
     }
 
+
+    private String macAddress;
+
     @Column(unique = true)
     private String username;
 
@@ -25,6 +28,14 @@ public class User extends BaseEntityId {
 
     @JsonIgnore
     private Long numberOfCustomers;
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+    }
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -58,7 +69,7 @@ public class User extends BaseEntityId {
         return numberOfCustomers;
     }
 
-    public void setNumberOfCustomer(Long numberOfCustomers) {
+    public void setNumberOfCustomers(Long numberOfCustomers) {
         this.numberOfCustomers = numberOfCustomers;
     }
 
