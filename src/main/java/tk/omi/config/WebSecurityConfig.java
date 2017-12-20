@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/static/**", "/webjars/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login").and()
                 .exceptionHandling();
 
+
     }
 
     @Bean
@@ -59,7 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
-
 
     @Autowired
     private OmniRestEntryPoint authenticationEntryPoint;
