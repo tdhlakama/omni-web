@@ -56,8 +56,8 @@ public class OmniRestController {
                 customerDocument.setCustomer(customer);
                 customerDocument = appService.save(customerDocument);
 
-                ServerResponse response = new ServerResponse(customerDocument.getId(), "Customer Account Created");
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
+                ServerResponse response = new ServerResponse(customerDocument.getId(), "Customer Document Uploaded");
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
         } catch (IOException e) {
             e.printStackTrace();
