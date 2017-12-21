@@ -47,13 +47,13 @@
                     <span th:text="${customer.address}">Address</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action">Created On:
-                    <span th:text="${#dates.format(c.dateCreated, 'dd-MM-yyyy HH:mm')}">Date</span>
+                    <span th:text="${#dates.format(customer.dateCreated, 'dd-MM-yyyy HH:mm')}">Date</span>
                 </a>
             </div>
         </div>
     </div>
     <br/>
-    <h1>Supporting Documents Uploaded</h1>
+    <h3>Supporting Documents Uploaded</h3>
     <br/><br/>
     <div class="row">
         <div class="col-sm">
