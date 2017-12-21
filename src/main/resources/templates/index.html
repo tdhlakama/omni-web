@@ -11,6 +11,7 @@
 <div th:replace="fragments/header :: header"/>
 
 <div class="container">
+
     <span th:if="${agent == null}">
         <div class="starter-template">
             <h1>Omni Channel Home Page</h1>
@@ -19,49 +20,53 @@
             <h2>3. Visit <a th:href="@{/about}">Instructions</a></h2>
         </div>
     </span>
-</div>
 
-<div class="container">
-    <div class="panel panel-primary" th:unless="${#lists.isEmpty(customers)}">
-        <div class="panel-heading">
-         <span th:if="${agent != null}">
-               Agent: <label th:text="${{agent.username}} + ' - ' "/> Registered Customers
-         </span>
+    <br/><br/>
+
+    <div class="card border-primary">
+        <div class="card-header">
+                   <span th:if="${agent != null}">
+                       Agent: <label th:text="${{agent.username}} + ' - ' "/>
+                 </span>
+
             <span th:if="${agent == null}">
-                All Registered Customers
-        </span>
-        </div>
+                  All
+                </span>
 
-        <div class="table-responsive">
-            <table id="tableList" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Surname</th>
-                    <th>Id Number</th>
-                    <th>Card Number</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="c : ${customers}">
-                    <td th:text="${{c.firstName}}">First Name</td>
-                    <td th:text="${{c.surname}}">Surname</td>
-                    <td th:text="${{c.idNumber}}">Id Number</td>
-                    <td th:text="${{c.cardNumber}}">Card Number</td>
-                    <td>
-                        <a href="#" data-th-href="@{/customer(id=${c.id})}">
-                            View
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <span th:if="${#lists.isEmpty(customers)}">
+                No
+                </span>
+            Registered Customers
 
-    <div class="panel panel-primary" th:if="${#lists.isEmpty(customers)}">
-        <h1> No Registered Customers </h1>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" th:unless="${#lists.isEmpty(customers)}">
+                <table id="tableList" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Surname</th>
+                        <th>Id Number</th>
+                        <th>Card Number</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="c : ${customers}">
+                        <td th:text="${{c.firstName}}">First Name</td>
+                        <td th:text="${{c.surname}}">Surname</td>
+                        <td th:text="${{c.idNumber}}">Id Number</td>
+                        <td th:text="${{c.cardNumber}}">Card Number</td>
+                        <td>
+                            <a href="#" data-th-href="@{/customer(id=${c.id})}">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
