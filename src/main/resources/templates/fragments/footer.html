@@ -6,31 +6,26 @@
 <body>
 <div th:fragment="footer">
 
-    <div class="container">
-
-        <footer>
-            <!-- this is footer -->
+    <footer class="footer">
+        <div class="container">
             © 2017 tk.co.zw
             <span sec:authorize="isAuthenticated()">
                 | Logged user: <span sec:authentication="name"></span> |
                 Roles: <span sec:authentication="principal.authorities"></span> |
-                <a th:href="@{/logout}">Sign Out</a>
+                <a th:href="@{/logout}">Logout</a>
             </span>
+        </div>
 
-            <script type="text/javascript"
-                    src="webjars/jquery/3.2.1/js/jquery.min.js"></script>
-            <script type="text/javascript"
-                    src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript"
+                src="webjars/jquery/3.2.1/jquery.min.js"></script>
 
-            <script type="text/javascript"
-                    src="webjars/datatables/1.10.16/js/datatables.min.js"></script>
+        <script src="webjars/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 
-            <script type="text/javascript" th:href="@{/js/omni.js}"
-                    src="../../css/omin.js"/>
-
-          </footer>
-    </div>
-
+        <script type="text/javascript" th:href="@{/js/omni.js}"
+                src="../../css/omin.js"/>
+    </footer>
 </div>
+
 </body>
 </html>
+

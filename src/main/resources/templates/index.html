@@ -49,6 +49,11 @@
                     <td th:text="${{c.surname}}">Surname</td>
                     <td th:text="${{c.idNumber}}">Id Number</td>
                     <td th:text="${{c.cardNumber}}">Card Number</td>
+                    <td>
+                        <a href="#" data-th-href="@{/customer(id=${c.id})}">
+                            View
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -56,8 +61,8 @@
     </div>
 
     <div class="panel panel-primary" th:if="${#lists.isEmpty(customers)}">
-       <h1> No Registered Customers </h1>
-   </div>
+        <h1> No Registered Customers </h1>
+    </div>
 
 </div>
 

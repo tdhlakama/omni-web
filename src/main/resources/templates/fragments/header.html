@@ -4,7 +4,7 @@
     <div th:fragment="header-css">
 
         <link rel="stylesheet" type="text/css"
-              href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+              href="webjars/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
 
         <link rel="stylesheet" th:href="@{/css/omni.css}"
               href="../../css/omin.css"/>
@@ -12,23 +12,27 @@
 </head>
 <body>
 <div th:fragment="header">
-    <!-- this is header -->
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/}">Omni</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a th:href="@{/}">Home</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/users}">Agents</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/about}">Instructions</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/}">Omni</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users}">Agents</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">Instructions</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+            Developer - Takunda L C Dhlakama
+            </span>
         </div>
     </nav>
 </div>

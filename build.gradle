@@ -35,10 +35,8 @@ dependencies {
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '2.1.2.RELEASE'
 
     compile 'org.webjars:jquery:3.2.1'
-    compile 'org.webjars:bootstrap:3.3.7-1'
+    compile 'org.webjars:bootstrap:4.0.0-beta.2'
     compile 'org.webjars:datatables:1.10.16'
-    compile 'org.webjars:webjars-locator:0.30'
-
 }
 
 jar.baseName = 'omni-web'

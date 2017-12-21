@@ -12,61 +12,61 @@
 
 <div class="container" th:unless="${#lists.isEmpty(users)}">
 
-    <h2>Registered Agents</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="#" th:action="@{/users}" th:object="${user}" method="post">
+                <fieldset>
+                    <h1>User Details</h1>
 
-    <div class="table-responsive">
-        <table id="tableList" class="table table-striped">
-            <thead>
-            <tr>
-                <th>Username</th>
-                <th>Customers Signed</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="u : ${users}">
-                <td th:text="${{u.username}}">Username</td>
-                <td th:text="${{u.numberOfCustomers}}">50</td>
-                <td>
-                    <a href="#" data-th-href="@{/list(userId=${u.id})}">
-                        View
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <div class="form-group">
+                        <input type="text" name="username" id="username" class="form-control input-lg"
+                               placeholder="User name" required="true" autofocus="true"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" class="form-control input-lg"
+                               placeholder="Password" required="true"/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Save"/>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <input type="reset" class="btn btn-lg btn-primary btn-block" value="Reset"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <h2>Registered Agents</h2>
+
+            <div class="table-responsive">
+                <table id="tableList" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Customers Signed</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="u : ${users}">
+                        <td th:text="${{u.username}}">Username</td>
+                        <td>
+                            <a class="btn btn-primary" href="#" data-th-href="@{/list(userId=${u.id})}">
+                                Customers Signed <span class="badge badge-light">
+                    <span th:text="${{u.numberOfCustomers}}"></span>
+                    </span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="container">
-
-    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-        <form action="#" th:action="@{/users}" th:object="${user}" method="post">
-            <fieldset>
-                <h1>User Details</h1>
-
-                <div class="form-group">
-                    <input type="text" name="username" id="username" class="form-control input-lg"
-                           placeholder="User name" required="true" autofocus="true"/>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="password" id="password" class="form-control input-lg"
-                           placeholder="Password" required="true"/>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Save"/>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                        <input type="reset" class="btn btn-lg btn-primary btn-block" value="Reset"/>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
-
 <div th:replace="fragments/footer :: footer"/>
 
 </body>

@@ -6,6 +6,7 @@ import tk.omi.model.Role;
 import tk.omi.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AppService {
 
@@ -19,6 +20,7 @@ public interface AppService {
     CustomerDocument getCustomerDocument(Long id);
     CustomerDocument save(CustomerDocument customerDocument);
     List<CustomerDocument> findByCustomer(Customer customer);
+    Optional<CustomerDocument> getCustomerDocument(Customer customer, String documentType);
 
     User save(User user);
     List<User> findAllUsers();

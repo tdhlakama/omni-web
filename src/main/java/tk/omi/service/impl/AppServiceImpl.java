@@ -21,6 +21,7 @@ import tk.omi.service.AppService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,6 +90,11 @@ public class AppServiceImpl implements AppService, UserDetailsService {
     }
 
     @Override
+    public Optional<CustomerDocument> getCustomerDocument(Customer customer, String documentType) {
+        return customerDocumentRepository.findByCustomer(customer).stream().findFirst();
+    }
+
+    @Override
     public User save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -130,5 +136,6 @@ public class AppServiceImpl implements AppService, UserDetailsService {
     public List<Role> findAllRoles() {
         return roleRepository.findAll();
     }
+
 
 }

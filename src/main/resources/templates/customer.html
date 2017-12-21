@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Omni Home</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+
+            <div class="card" style="width: 20rem;">
+                <img class="card-img-top" th:src="@{/photo(id=${customer.id})}"
+                     title="Customer Photo" alt="Image"/>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <span th:text="${{customer.firstName}}">First Name</span>
+                        <span th:text="${{customer.surname}}">Last Name</span>
+                    </h4>
+                    <p>Account Number : <span th:text="${{customer.accountNumber}}">Account Number</span></p>
+                    <a href="#" class="btn btn-primary">View All Customers</a>
+                </div>
+            </div>
+            <br/>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">
+                    Detail
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">ID Number:
+                    <span th:text="${customer.idNumber}">ID Number</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Card Number:
+                    <span th:text="${customer.accountNumber}">Card Number</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Phone Number:
+                    <span th:text="${customer.phoneNumber}">Phone</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Email Address:
+                    <span th:text="${customer.emailAddress}">Email</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Post Address:
+                    <span th:text="${customer.address}">Address</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#proofModal">
+        Proof Of Residence
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#copyIdModal">
+        Copy of ID
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signatureModal">
+        Signature
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="proofModal" tabindex="-1" role="dialog" aria-labelledby="proofModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="proofModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="copyIdModal" tabindex="-1" role="dialog" aria-labelledby="copyIdModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="copyIdModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="signatureModal" tabindex="-1" role="dialog" aria-labelledby="signatureModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signatureModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>
