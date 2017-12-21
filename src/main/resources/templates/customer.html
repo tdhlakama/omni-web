@@ -47,7 +47,7 @@
                     <span th:text="${customer.address}">Address</span>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action">Created On:
-                    <span th:text="${customer.dateCreated}">Time</span>
+                    <span th:text="${#dates.format(c.dateCreated, 'dd-MM-yyyy HH:mm')}">Date</span>
                 </a>
             </div>
         </div>

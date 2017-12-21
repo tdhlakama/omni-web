@@ -48,7 +48,9 @@
                         <th>Surname</th>
                         <th>Id Number</th>
                         <th>Card Number</th>
-                        <th></th>
+                        <th>Created By</th>
+                        <th>Created on</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,6 +59,12 @@
                         <td th:text="${{c.surname}}">Surname</td>
                         <td th:text="${{c.idNumber}}">Id Number</td>
                         <td th:text="${{c.cardNumber}}">Card Number</td>
+                        <td>
+                            <span th:if="${c.user != null}" th:text="${{c.user.username}}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${#dates.format(c.dateCreated, 'dd-MM-yyyy HH:mm')}"></span>
+                        </td>
                         <td>
                             <a href="#" data-th-href="@{/customer(id=${c.id})}">
                                 View
