@@ -40,3 +40,7 @@ dependencies {
 }
 
 jar.baseName = 'omni-web'
+
+springBoot {
+    executable = true
+}

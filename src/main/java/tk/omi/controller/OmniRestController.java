@@ -1,6 +1,8 @@
 package tk.omi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -17,6 +19,7 @@ import tk.omi.service.AppService;
 import javax.servlet.annotation.MultipartConfig;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -85,6 +88,19 @@ public class OmniRestController {
             return null;
         }
 
+    }
+
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImageAsResponseEntity(@RequestParam("id") Long id, @RequestParam("documentType") String documentType) {
+        HttpHeaders headers = new HttpHeaders();
+
+        Customer customer = appService.getCustomer(id);
+        Optional<CustomerDocument> documentOptional = appService
+                .getCustomerDocument(customer, documentType);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(documentOptional.get().getDocument(), headers, HttpStatus.OK);
+        return responseEntity;
     }
 
 

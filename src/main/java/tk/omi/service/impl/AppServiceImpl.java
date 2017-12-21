@@ -91,7 +91,11 @@ public class AppServiceImpl implements AppService, UserDetailsService {
 
     @Override
     public Optional<CustomerDocument> getCustomerDocument(Customer customer, String documentType) {
-        return customerDocumentRepository.findByCustomer(customer).stream().findFirst();
+        return customerDocumentRepository
+                .findByCustomer(customer).stream()
+                .filter(customerDocument -> customerDocument.getDocumentType()!=null)
+                .filter(c->c.getDocumentType().equals(documentType))
+                .findFirst();
     }
 
     @Override

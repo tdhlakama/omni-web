@@ -17,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +79,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/copyId", method = RequestMethod.GET)
-    public void showImageID(@RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request)
+    public void showImageID(@RequestParam("id") Long id, HttpServletResponse response)
             throws ServletException, IOException {
 
         Customer customer = appService.getCustomer(id);
@@ -96,7 +95,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/signature", method = RequestMethod.GET)
-    public void showImageSignature(@RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request)
+    public void showImageSignature(@RequestParam("id") Long id, HttpServletResponse response)
             throws ServletException, IOException {
 
         Customer customer = appService.getCustomer(id);
@@ -112,7 +111,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/proof", method = RequestMethod.GET)
-    public void showProofImage(@RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request)
+    public void showProofImage(@RequestParam("id") Long id, HttpServletResponse response)
             throws ServletException, IOException {
 
         Customer customer = appService.getCustomer(id);
@@ -126,13 +125,15 @@ public class IndexController {
             response.getOutputStream().close();
         }
     }
+
     @RequestMapping("/customer")
     public String list(Model model, @RequestParam(value = "id") Long id) {
         List<Customer> customers = new ArrayList<>();
-        if (id!=null) {
+        if (id != null) {
             Customer customer = appService.getCustomer(id);
             model.addAttribute("customer", customer);
         }
         return "customer";
     }
+
 }
