@@ -3,6 +3,7 @@ package tk.omi.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 public class Customer extends BaseEntityId {
@@ -17,6 +18,7 @@ public class Customer extends BaseEntityId {
     private String emailAddress;
     @Column(unique = true)
     private Long accountNumber;
+
     @ManyToOne
     private User user;
 
