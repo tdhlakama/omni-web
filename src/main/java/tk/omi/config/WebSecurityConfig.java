@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/static/**", "/webjars/**", "/css/**", "/swagger-ui.html").permitAll()
+                .antMatchers("/resources/**", "/static/**", "/webjars/**", "/css/**", "/swagger-ui.html", "/inform").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
@@ -43,9 +43,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").and()
-                .exceptionHandling();
-
-
+                .exceptionHandling()
+                .and()
+                .sessionManagement()
+                .sessionFixation().migrateSession()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/invalidSession")
+                .maximumSessions(1)
+                .expiredUrl("/expiredSession");;
     }
 
     @Bean
