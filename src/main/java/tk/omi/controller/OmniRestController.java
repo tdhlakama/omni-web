@@ -18,8 +18,11 @@ import tk.omi.service.AppService;
 
 import javax.servlet.annotation.MultipartConfig;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static tk.omi.model.CustomerDocument.*;
 
 @RestController
 @RequestMapping("/api")
@@ -37,6 +40,25 @@ public class OmniRestController {
         customer = appService.save(customer);
         ServerResponse response = new ServerResponse(customer.getAccountNumber(), "Customer Account Created");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/customer/list", produces = "application/json")
+    public ResponseEntity customerList(@RequestParam("username") Optional<String> usernameOptional) {
+        User user;
+        if (usernameOptional.isPresent()) {
+            user = appService.findByUsername(usernameOptional.get());
+            if (user != null)
+                return new ResponseEntity<>(appService.findByUser(user), HttpStatus.OK);
+            else
+                return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(appService.findAllCustomers(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/documentTypes", produces = "application/json")
+    public ResponseEntity documentTypes() {
+        String[] documents = {COPY_ID, PROOF_OF_RESIDENCE, SIGNATURE, IMAGE};
+        return new ResponseEntity<>(Arrays.asList(documents), HttpStatus.OK);
     }
 
     @PostMapping(value = "/customerDocument/upload")
@@ -69,14 +91,25 @@ public class OmniRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/user/list", produces = "application/json")
+    public ResponseEntity userList() {
+        return new ResponseEntity<>(appService.findAllUsers(), HttpStatus.OK);
+    }
+
     @GetMapping("/user")
     public ResponseEntity login() {
-
         User user = getUser();
         if (user != null)
             return new ResponseEntity<>(user, HttpStatus.OK);
         else
             return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping(value = "/user/register", produces = "application/json")
+    public ResponseEntity saveUser(@RequestBody User user) {
+        user = appService.save(user);
+        ServerResponse response = new ServerResponse(user.getId(), "User Account Created");
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     private User getUser() {
@@ -87,11 +120,10 @@ public class OmniRestController {
         } else {
             return null;
         }
-
     }
 
-    @RequestMapping(value = "/image", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getCustomerSupportDocumentByDocumentType(@RequestParam("id") Long id, @RequestParam("documentType") String documentType) {
+    @RequestMapping(value = "/document", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getCustomerDocument(@RequestParam("id") Long id, @RequestParam("documentType") String documentType) {
         HttpHeaders headers = new HttpHeaders();
 
         Customer customer = appService.getCustomer(id);
