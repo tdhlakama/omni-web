@@ -30,7 +30,7 @@ public class OmniRestController {
     private AppService appService;
 
     @PostMapping(value = "/customer/register", produces = "application/json")
-    public ResponseEntity saveCustomers(@RequestBody Customer customer) {
+    public ResponseEntity saveCustomer(@RequestBody Customer customer) {
 
         User user = getUser();
         customer.setUser(user);
@@ -91,7 +91,7 @@ public class OmniRestController {
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getImageAsResponseEntity(@RequestParam("id") Long id, @RequestParam("documentType") String documentType) {
+    public ResponseEntity<byte[]> getCustomerSupportDocumentByDocumentType(@RequestParam("id") Long id, @RequestParam("documentType") String documentType) {
         HttpHeaders headers = new HttpHeaders();
 
         Customer customer = appService.getCustomer(id);
