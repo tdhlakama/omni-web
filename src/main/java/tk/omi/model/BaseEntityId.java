@@ -1,5 +1,7 @@
 package tk.omi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -21,6 +23,7 @@ public abstract class BaseEntityId {
         this.id = id;
     }
 
+    @JsonIgnore
     public Date getDateCreated() {
         return dateCreated;
     }
